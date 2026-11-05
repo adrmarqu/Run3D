@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SelectPlayerColor : SelectColorSystem, IPointerClickHandler
 {
@@ -44,7 +45,11 @@ public class SelectPlayerColor : SelectColorSystem, IPointerClickHandler
         ColorSystem.indexPlayerColor = index;
         if (_change != null)
         {
+            Text _textPrice = transform.Find("Puntos").GetComponent<Text>();
+
             _change.ChangeColorCharacter(index);
+            price = 0;
+            _textPrice.text = "";
         }
     }
 }
