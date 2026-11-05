@@ -23,7 +23,10 @@ public class RoadSystem : MonoBehaviour
 
         for (int i = 3; i < maps.Length; i++)   // Se activan las primeras tres partes del mapa
         {
-            maps[i].SetActive(false);
+            if (maps[i] != null)
+            {
+                maps[i].SetActive(false);
+            }
         }
     }
 
@@ -36,9 +39,21 @@ public class RoadSystem : MonoBehaviour
 
             if (offset < -segmentLength)
             {
-                maps[index - 3].SetActive(false);
-                maps[index].SetActive(true);
-                index++;
+                if (index - 3 >= 0 && index - 3 < maps.Length && maps[index - 3] != null)
+                {
+                    maps[index - 3].SetActive(false);
+                }
+
+                if (index < maps.Length && maps[index] != null)
+                {
+                    maps[index].SetActive(true);
+                }
+
+                if (index < maps.Length)
+                {
+                    index++;
+                }
+
                 offset += segmentLength;
             }
         }

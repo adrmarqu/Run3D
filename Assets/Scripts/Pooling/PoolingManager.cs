@@ -6,16 +6,13 @@ using System;
 [Serializable]
 public class PooledItems // Esta clase servira para identificar cada lista
 {
-
     public string Name;                 // El identificador de la lista
     public GameObject objectToPool;     // El objeto que queremos multiplicar
     public int amount;                  // La cantidad de instancias iniciales
-
 }
 
 public class PoolingManager : MonoBehaviour
 {
-
     private static PoolingManager _instance;
     public static PoolingManager Instance
     {
@@ -43,14 +40,17 @@ public class PoolingManager : MonoBehaviour
         for (int i = 0; i < pooledLists.Count; i++) // Para cada lista de objetos
         {
             PooledItems l = pooledLists[i];
-            _items.Add(l.Name, new List<GameObject>()); // Creamos una entrada en el diccionario
+            if (!_items.ContainsKey(l.Name))
+            {
+                _items.Add(l.Name, new List<GameObject>()); // Creamos una entrada en el diccionario
+            }
 
-            for (int j = 0; j < l.amount; j++)  // Añadimos las copias
+            for (int j = 0; j < l.amount; j++)  // AÃ±adimos las copias
             {
                 GameObject tmp;
                 tmp = Instantiate(l.objectToPool);  // Creamos la copia
                 tmp.SetActive(false);               // Desactivamos la copia
-                _items[l.Name].Add(tmp);            // La añadimos a la lista
+                _items[l.Name].Add(tmp);            // La aÃ±adimos a la lista
             }
         }
     }
@@ -58,11 +58,17 @@ public class PoolingManager : MonoBehaviour
     public GameObject GetPooledObject(string name)  // Para obtener una copia es necesario especificar
                                                     // el nombre de la lista de donde lo vamos a obtener
     {
+        if (!_items.ContainsKey(name))
+        {
+            Debug.LogWarning("Pool with name '" + name + "' does not exist in PoolingManager.");
+            return null;
+        }
+
         List<GameObject> tmp = _items[name];
         // Busca un objeto que este desactivado y lo retorna
         for (int i = 0; i < tmp.Count; i++)
         {
-            if (!tmp[i].activeInHierarchy)
+            if (tmp[i] != null && !tmp[i].activeInHierarchy)
             {
                 return tmp[i];
             }
@@ -72,11 +78,17 @@ public class PoolingManager : MonoBehaviour
 
     public GameObject GetActiveObject(string name)
     {
+        if (!_items.ContainsKey(name))
+        {
+            Debug.LogWarning("Pool with name '" + name + "' does not exist in PoolingManager.");
+            return null;
+        }
+
         List<GameObject> tmp = _items[name];
         // Busca un objeto que este activado y lo retorna
         for (int i = 0; i < tmp.Count; i++)
         {
-            if (tmp[i].activeInHierarchy)
+            if (tmp[i] != null && tmp[i].activeInHierarchy)
             {
                 return tmp[i];
             }

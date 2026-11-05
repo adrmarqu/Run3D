@@ -11,7 +11,11 @@ public class ObstacleCollision : MonoBehaviour
     {
         if (LayerMask.LayerToName(other.gameObject.layer).Equals("Followers"))
         {
-            other.GetComponent<AllyHealth>().Health();
+            AllyHealth ally = other.GetComponent<AllyHealth>();
+            if (ally != null)
+            {
+                ally.Health();
+            }
         }
     }
 }

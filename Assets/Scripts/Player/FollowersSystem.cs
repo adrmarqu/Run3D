@@ -30,7 +30,7 @@ public class FollowersSystem : MonoBehaviour
         followers = 1;
     }
 
-    // Añadir seguidor
+    // AÃ±adir seguidor
 
     public void AddFollower()
     {

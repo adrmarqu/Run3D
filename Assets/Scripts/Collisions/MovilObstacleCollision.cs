@@ -17,9 +17,21 @@ public class MovilObstacleCollision : MonoBehaviour
     {
         if (LayerMask.LayerToName(other.gameObject.layer).Equals("Followers"))
         {
-            other.GetComponent<AllyHealth>().Health();
-            _anim.Play();
-            Destroy(_obj);
+            AllyHealth ally = other.GetComponent<AllyHealth>();
+            if (ally != null)
+            {
+                ally.Health();
+            }
+
+            if (_anim != null)
+            {
+                _anim.Play();
+            }
+
+            if (_obj != null)
+            {
+                Destroy(_obj);
+            }
         }
     }
 }

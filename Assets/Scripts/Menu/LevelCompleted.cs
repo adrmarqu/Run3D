@@ -25,69 +25,142 @@ public class LevelCompleted : MonoBehaviour
     {
         _level = GameObject.FindGameObjectWithTag("levelController");
 
-        _reset = _level.GetComponent<ResetLevel>();
-        _control = _level.GetComponent<LevelController>();
+        if (_level != null)
+        {
+            _reset = _level.GetComponent<ResetLevel>();
+            _control = _level.GetComponent<LevelController>();
+            if (_control != null)
+            {
+                numLevels = _control.GetNumLevels();
+            }
+        }
 
-        numLevels = _control.GetNumLevels();
-
-        levelPanel[0].SetActive(false);
-        levelPanel[1].SetActive(false);
-        levelPanel[2].SetActive(false);
+        if (levelPanel != null)
+        {
+            for (int i = 0; i < levelPanel.Length; i++)
+            {
+                if (levelPanel[i] != null)
+                {
+                    levelPanel[i].SetActive(false);
+                }
+            }
+        }
     }
 
     public void activePanel()
     {
         PauseMenu.GameIsPaused = true;
-        canvasInGame.SetActive(false);
+        if (canvasInGame != null)
+        {
+            canvasInGame.SetActive(false);
+        }
 
         if (LevelSystem.level == LevelSystem.levelUnlocked)
         {
             LevelSystem.levelUnlocked = LevelSystem.level + 1;
         }
 
-        if (LevelSystem.level < numLevels)
+        if (levelPanel != null)
         {
-            levelPanel[0].SetActive(true);
-        }
-        else
-        {
-            levelPanel[1].SetActive(true);
+            if (LevelSystem.level < numLevels)
+            {
+                if (levelPanel.Length > 0 && levelPanel[0] != null)
+                {
+                    levelPanel[0].SetActive(true);
+                }
+            }
+            else
+            {
+                if (levelPanel.Length > 1 && levelPanel[1] != null)
+                {
+                    levelPanel[1].SetActive(true);
+                }
+            }
         }
         Debug.Log("Nivel compleatdo: " + LevelSystem.level + " Nivel desbloqueado: " + LevelSystem.levelUnlocked);
     }
 
     public void nextLevel()
     {
-        levelPanel[0].SetActive(false);
-        canvasInGame.SetActive(true);
-
-        _control.NextLevel();
-
+        InputSystemKeyBoard.moveMap = false;
         PauseMenu.GameIsPaused = false;
+        Time.timeScale = 1f;
+
+        if (levelPanel != null && levelPanel.Length > 0 && levelPanel[0] != null)
+        {
+            levelPanel[0].SetActive(false);
+        }
+        if (canvasInGame != null)
+        {
+            canvasInGame.SetActive(true);
+        }
+
+        if (_control != null)
+        {
+            _control.NextLevel();
+        }
     }
 
     public void restartLevel()
     {
-        levelPanel[0].SetActive(false);
-        levelPanel[1].SetActive(false);
-        canvasInGame.SetActive(true);
-
-        _reset.RestartLevel();
-
+        InputSystemKeyBoard.moveMap = false;
         PauseMenu.GameIsPaused = false;
+        Time.timeScale = 1f;
+
+        if (levelPanel != null)
+        {
+            for (int i = 0; i < levelPanel.Length; i++)
+            {
+                if (levelPanel[i] != null)
+                {
+                    levelPanel[i].SetActive(false);
+                }
+            }
+        }
+        if (canvasInGame != null)
+        {
+            canvasInGame.SetActive(true);
+        }
+
+        if (_reset != null)
+        {
+            _reset.RestartLevel();
+        }
+        else
+        {
+            SceneManager.LoadScene("Game");
+        }
     }
 
     public void ExitLevel()
     {
-        levelPanel[0].SetActive(false);
-        levelPanel[1].SetActive(false);
+        InputSystemKeyBoard.moveMap = false;
+        PauseMenu.GameIsPaused = false;
+        Time.timeScale = 1f;
+
+        if (levelPanel != null)
+        {
+            for (int i = 0; i < levelPanel.Length; i++)
+            {
+                if (levelPanel[i] != null)
+                {
+                    levelPanel[i].SetActive(false);
+                }
+            }
+        }
         SceneManager.LoadScene("Menu");
     }
 
     public void deathPanel()
     {
         PauseMenu.GameIsPaused = true;
-        canvasInGame.SetActive(false);
-        levelPanel[2].SetActive(true);
+        if (canvasInGame != null)
+        {
+            canvasInGame.SetActive(false);
+        }
+        if (levelPanel != null && levelPanel.Length > 2 && levelPanel[2] != null)
+        {
+            levelPanel[2].SetActive(true);
+        }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ExitGame : MonoBehaviour
 {
-    // Para salir de la aplicación
+    // Para salir de la aplicaciÃ³n
 
     public void ExitButton()
     {

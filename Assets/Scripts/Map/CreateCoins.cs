@@ -31,17 +31,24 @@ public class CreateCoins : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < lineCoins.Length; i++)
+        if (lineCoins != null)
         {
-            LineGold(i);
-        }
-        for (int i = 0; i < massCoins.Length; i++)
-        {
-            if (massCoins[i].numColumns > 7)    // Solo puede haber un maximo de 7 columnas
+            for (int i = 0; i < lineCoins.Length; i++)
             {
-                massCoins[i].numColumns = 7;
+                LineGold(i);
             }
-            MassGold(i);
+        }
+
+        if (massCoins != null)
+        {
+            for (int i = 0; i < massCoins.Length; i++)
+            {
+                if (massCoins[i].numColumns > 7)    // Solo puede haber un maximo de 7 columnas
+                {
+                    massCoins[i].numColumns = 7;
+                }
+                MassGold(i);
+            }
         }
     }
 
@@ -60,7 +67,10 @@ public class CreateCoins : MonoBehaviour
 
                 coin.SetActive(true);
 
-                coin.transform.SetParent(lineCoins[index].parent.transform);
+                if (lineCoins[index].parent != null)
+                {
+                    coin.transform.SetParent(lineCoins[index].parent.transform);
+                }
                 coin.name = "Coin" + i;
 
                 pos.x = pos.x - 10;
@@ -91,7 +101,10 @@ public class CreateCoins : MonoBehaviour
 
                     coin.SetActive(true);
 
-                    coin.transform.SetParent(massCoins[index].parent.transform);
+                    if (massCoins[index].parent != null)
+                    {
+                        coin.transform.SetParent(massCoins[index].parent.transform);
+                    }
                     coin.name = "Coin" + i + j;
                 }
             }

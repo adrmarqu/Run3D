@@ -7,8 +7,14 @@ public class SelectEnemyColor : SelectColorSystem, IPointerClickHandler
 {
     void Start()
     {
-        _canvas = panelColor.GetComponent<CanvasCoins>();
-        _change = character.GetComponent<ChangeColor>();
+        if (panelColor != null)
+        {
+            _canvas = panelColor.GetComponent<CanvasCoins>();
+        }
+        if (character != null)
+        {
+            _change = character.GetComponent<ChangeColor>();
+        }
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
@@ -22,7 +28,12 @@ public class SelectEnemyColor : SelectColorSystem, IPointerClickHandler
 
         if (CoinSystem.coins >= price)
         {
-            _canvas.CoinCanvas();
+            CoinSystem.coins -= price;
+
+            if (_canvas != null)
+            {
+                _canvas.CoinCanvas();
+            }
 
             PutColor();
         }
@@ -31,6 +42,9 @@ public class SelectEnemyColor : SelectColorSystem, IPointerClickHandler
     void PutColor()
     {
         ColorSystem.indexEnemyColor = index;
-        _change.ChangeColorCharacter(index);
+        if (_change != null)
+        {
+            _change.ChangeColorCharacter(index);
+        }
     }
 }

@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class CharacterCollision : MonoBehaviour
 {
-
     private EnemyHealth _health;
 
     private void Awake()
@@ -19,8 +18,16 @@ public class CharacterCollision : MonoBehaviour
     {
         if (LayerMask.LayerToName(other.gameObject.layer).Equals("Followers"))
         {
-            other.GetComponent<AllyHealth>().Health();
-            _health.Health();
+            AllyHealth ally = other.GetComponent<AllyHealth>();
+            if (ally != null)
+            {
+                ally.Health();
+            }
+
+            if (_health != null)
+            {
+                _health.Health();
+            }
         }
     }
 }

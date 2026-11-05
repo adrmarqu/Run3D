@@ -12,14 +12,21 @@ public class FinishLevel : MonoBehaviour
     {
         canvasLevel = GameObject.FindGameObjectWithTag("CanvasLevel");
 
-        _lvl = canvasLevel.GetComponent<LevelCompleted>();
+        if (canvasLevel != null)
+        {
+            _lvl = canvasLevel.GetComponent<LevelCompleted>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (LayerMask.LayerToName(other.gameObject.layer).Equals("Followers"))
+        string layerName = LayerMask.LayerToName(other.gameObject.layer);
+        if (layerName.Equals("Followers") || layerName.Equals("PlayerController") || other.CompareTag("Player") || other.CompareTag("Follower"))
         {
-            _lvl.activePanel();
+            if (_lvl != null)
+            {
+                _lvl.activePanel();
+            }
         }
     }
 }

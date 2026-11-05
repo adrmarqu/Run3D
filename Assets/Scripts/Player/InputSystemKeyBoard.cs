@@ -10,6 +10,11 @@ public class InputSystemKeyBoard : MonoBehaviour
     public float hor { get; private set; } // get para obtener y set para asignar
     public float ver { get; private set; }
 
+    private void Awake()
+    {
+        moveMap = false;
+    }
+
     void Update()
     {
         hor = Input.GetAxis("Horizontal");

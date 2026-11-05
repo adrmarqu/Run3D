@@ -9,10 +9,10 @@ public class GodPlayerSystem : MonoBehaviour
     [Header("Activar inmunidad")]
     public bool activeInmunity;
 
-    [Header("Activar añadir y quitar seguidores")]
+    [Header("Activar aÃ±adir y quitar seguidores")]
     public bool activeFollowers;
 
-    [Header("Añadir seguidor o con la tecla E")]
+    [Header("AÃ±adir seguidor o con la tecla E")]
     public bool addFollow;
 
     [Header("Quitar seguidor o con la tecla R")]

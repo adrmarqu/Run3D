@@ -35,23 +35,43 @@ public class AttackSystem : MonoBehaviour
         {
             persue = true;
 
-            Destroy(_engine); // Destruir engine para que el player no pueda moverlo
+            if (_engine != null)
+            {
+                _engine.enabled = false; // Desactivar engine temporalmente para que persiga al enemigo
+            }
         }
-        
+    }
+
+    public void StopAttack()
+    {
+        persue = false;
+        target = null;
+        if (_engine != null)
+        {
+            _engine.enabled = true; // Restaurar engine cuando termina el ataque
+        }
     }
 
     private void Update()
     {
         if (persue && !PauseMenu.GameIsPaused)
         {
+            if (target == null || !target.activeInHierarchy)
+            {
+                StopAttack();
+                return;
+            }
+
             targetOffset = target.transform.position - transform.position;
             targetOffset = new Vector3(targetOffset.x, 0, targetOffset.z);
 
             targetOffsetProjected = new Vector3(targetOffset.x, 0, targetOffset.z);
             targetOffsetNormalized = targetOffsetProjected.normalized;
 
-            _controller.Move(targetOffsetNormalized * persueSpeed * Time.deltaTime);
-
+            if (_controller != null)
+            {
+                _controller.Move(targetOffsetNormalized * persueSpeed * Time.deltaTime);
+            }
         }
     }
 

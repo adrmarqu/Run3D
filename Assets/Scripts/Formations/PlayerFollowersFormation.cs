@@ -42,14 +42,18 @@ public class PlayerFollowersFormation : MonoBehaviour
                 pos.x = i * 5 + 5;      // +5 para no estar en la posicion del player
                 pos.z = posInitial.z + (5 * j);
 
-                follower = PoolingManager.Instance.GetPooledObject("Followers");
-                //follower.SetActive(true);
+                follower = PoolingManager.Instance.GetPooledObject("Follower");
+                if (follower != null)
+                {
+                    follower.transform.position = new Vector3(pos.x, pos.y, pos.z);
 
-                follower.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                    if (parent != null)
+                    {
+                        follower.transform.SetParent(parent.transform);
+                    }
 
-                follower.transform.SetParent(parent.transform);
-
-                num_followers++;
+                    num_followers++;
+                }
             }
         }
     }
